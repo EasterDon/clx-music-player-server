@@ -1,0 +1,29 @@
+{
+  "name": "clx-music-script-server",
+  "version": "1.0.0",
+  "private": true,
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "scripts": {
+    "dev:build": "tsc --watch",
+    "dev:start": "nodemon --env-file=.env dist/bin/www.mjs",
+    "build": "tsc",
+    "start": "node --env-file=.env.production dist/bin/www.mjs"
+  },
+  "dependencies": {
+    "debug": "^4.4.0",
+    "express": "~5.1.0",
+    "morgan": "~1.10.0",
+    "mysql2": "^3.14.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.25.1",
+    "@stylistic/eslint-plugin": "^4.2.0",
+    "@types/debug": "^4.1.12",
+    "@types/express": "^5.0.1",
+    "@types/morgan": "^1.9.9",
+    "eslint": "^9.25.1",
+    "globals": "^16.0.0",
+    "typescript-eslint": "^8.31.0"
+  }
+}
