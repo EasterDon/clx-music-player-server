@@ -1,6 +1,6 @@
 -- MariaDB dump 10.19  Distrib 10.11.6-MariaDB, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: clx_musics
+-- Host: localhost    Database: clx_music
 -- ------------------------------------------------------
 -- Server version	10.11.6-MariaDB-1
 
@@ -28,8 +28,9 @@ CREATE TABLE `app` (
   `app_version` text NOT NULL DEFAULT '',
   `app_download_link` text NOT NULL DEFAULT '',
   `app_version_description` text NOT NULL DEFAULT '',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  PRIMARY KEY (`id`),
+  KEY `id` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,37 +45,37 @@ INSERT INTO `app` VALUES
 UNLOCK TABLES;
 
 --
--- Table structure for table `musics`
+-- Table structure for table `songs`
 --
 
-DROP TABLE IF EXISTS `musics`;
+DROP TABLE IF EXISTS `songs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `musics` (
+CREATE TABLE `songs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `music_array` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `notation` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `author` text DEFAULT NULL,
   `cover_url` text NOT NULL,
   `mp3_url` text DEFAULT NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `music_array` CHECK (NULL)
+  CONSTRAINT `chk_music_array` CHECK (`notation` is null or json_valid(`notation`))
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `musics`
+-- Dumping data for table `songs`
 --
 
-LOCK TABLES `musics` WRITE;
-/*!40000 ALTER TABLE `musics` DISABLE KEYS */;
-INSERT INTO `musics` VALUES
+LOCK TABLES `songs` WRITE;
+/*!40000 ALTER TABLE `songs` DISABLE KEYS */;
+INSERT INTO `songs` VALUES
 (1,'星如雨','[\"adq\",245,\"w\",245,\"t\",245,\"w\",245,\"e\",245,\"dt\",245,\"dw\",245,\"e\",245,\"t\",245,\"w\",245,\"he\",245,\"gt\",245,\"ndq\",245,\"w\",245,\"e\",245,\"q\",245,\"w\",245,\"dt\",245,\"dq\",245,\"w\",245,\"e\",245,\"q\",245,\"sq\",245,\"de\",245,\"vnq\",245,\"w\",245,\"t\",245,\"q\",245,\"w\",245,\"nt\",245,\"dq\",245,\"w\",245,\"y\",245,\"q\",245,\"w\",245,\"nt\",245,\"nhw\",245,\"q\",245,\"w\",245,\"t\",245,\"w\",245,\"e\",245,\"cw\",245,\"q\",245,\"w\",245,\"cns\",245,\"bd\",245,\"cg\",245,\"vfh\",367,\"z\",367,\"c\",367,\"nh\",367,\"cnah\",735,\"s\",184,\"a\",184,\"nd\",184,\"b\",184,\"cbg\",367,\"m\",367,\"x\",367,\"bg\",367,\"xcbg\",735,\"d\",367,\"g\",184,\"d\",184,\"xs\",367,\"zn\",367,\"xb\",367,\"ba\",367,\"bs\",367,\"m\",367,\"xns\",367,\"vag\",367,\"z\",367,\"ca\",367,\"b\",367,\"n\",367,\"zcbq\",1632,\"bg\",184,\"nh\",184,\"aq\",367,\"zaw\",92,\"e\",92,\"w\",184,\"c\",184,\"q\",184,\"bh\",367,\"za\",184,\"q\",184,\"vfw\",184,\"n\",184,\"z\",184,\"v\",184,\"bg\",184,\"nh\",184,\"aq\",367,\"bgw\",367,\"m\",184,\"q\",184,\"sw\",367,\"b\",184,\"e\",184,\"nd\",184,\"aq\",184,\"cj\",184,\"bh\",184,\"bw\",184,\"ne\",184,\"at\",367,\"vfw\",184,\"z\",184,\"v\",184,\"bq\",184,\"nw\",184,\"b\",184,\"v\",184,\"zq\",184,\"bw\",184,\"x\",184,\"b\",184,\"nq\",184,\"mw\",184,\"ne\",184,\"bt\",184,\"xy\",184,\"nhqe\",184,\"c\",184,\"n\",184,\"a\",184,\"dw\",184,\"ne\",184,\"dw\",184,\"aq\",184,\"bh\",184,\"m\",184,\"s\",184,\"b\",184,\"xg\",184,\"ch\",184,\"bq\",367,\"vfh\",367,\"a\",184,\"q\",184,\"dq\",367,\"n\",184,\"w\",184,\"vfw\",367,\"m\",367,\"sq\",184,\"w\",184,\"be\",367,\"bmsy\",367,\"t\",367,\"cbme\",367,\"w\",367,\"zcnq\",816,\"vaq\",367,\"z\",367,\"nsw\",367,\"de\",367,\"bgt\",367,\"x\",367,\"vsw\",735,\"za\",184,\"a\",184,\"cf\",184,\"g\",184,\"bs\",184,\"c\",184,\"zb\",184,\"a\",184,\"f\",184,\"g\",184,\"t\",735,\"vafq\",735,\"sgw\",367,\"dhe\",367,\"gjet\",735,\"w\",367,\"s\",905,\"zq\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",735,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",184,\"h\",184,\"d\",184,\"s\",184,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",735,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",184,\"h\",184,\"d\",184,\"s\",184,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",735,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",184,\"h\",184,\"d\",184,\"s\",184,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",735,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",184,\"h\",184,\"d\",184,\"s\",184,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",735,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",184,\"h\",184,\"d\",184,\"s\",184,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",735,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",184,\"h\",184,\"d\",184,\"s\",184,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",735,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",184,\"h\",184,\"d\",184,\"s\",184,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",735,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",184,\"h\",184,\"d\",184,\"s\",184,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",735,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",184,\"h\",184,\"d\",184,\"s\",184,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",735,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",184,\"h\",184,\"d\",184,\"s\",184,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",735,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",184,\"h\",184,\"d\",184,\"s\",184,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",735,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",184,\"h\",184,\"d\",184,\"s\",184,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",735,\"z\",184,\"a\",184,\"s\",184,\"d\",184,\"g\",184,\"h\"]','龚淑均&薄彩生','/1/music.jpg','/1/music.mp3');
-/*!40000 ALTER TABLE `musics` ENABLE KEYS */;
+/*!40000 ALTER TABLE `songs` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Dumping routines for database 'clx_musics'
+-- Dumping routines for database 'clx_music'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

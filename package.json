@@ -6,24 +6,28 @@
   "type": "module",
   "scripts": {
     "dev:build": "tsc --watch",
-    "dev:start": "nodemon --env-file=.env dist/bin/www.mjs",
+    "dev:start": "nodemon --env-file=.env src/bin/www.js",
     "build": "tsc",
-    "start": "node --env-file=.env.production dist/bin/www.mjs"
+    "start": "node --env-file=.env.production src/bin/www.js"
   },
   "dependencies": {
-    "debug": "^4.4.0",
+    "debug": "^4.4.1",
     "express": "~5.1.0",
     "morgan": "~1.10.0",
-    "mysql2": "^3.14.0"
+    "mysql2": "^3.14.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.25.1",
+    "@eslint/js": "^9.26.0",
     "@stylistic/eslint-plugin": "^4.2.0",
     "@types/debug": "^4.1.12",
     "@types/express": "^5.0.1",
     "@types/morgan": "^1.9.9",
-    "eslint": "^9.25.1",
-    "globals": "^16.0.0",
-    "typescript-eslint": "^8.31.0"
+    "eslint": "^9.26.0",
+    "eslint-plugin-prettier": "^5.4.0",
+    "globals": "^16.1.0",
+    "typescript-eslint": "^8.32.1"
+  },
+  "imports": {
+    "#*": "./src/*"
   }
 }
