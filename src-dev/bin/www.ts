@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-import app from '../app.mjs';
+import app from '#app.js';
 import debugFactory from 'debug';
 import http from 'http';
 
@@ -13,7 +13,7 @@ const debug = debugFactory('playground:server');
  */
 
 const port = normalizePort(process.env.PORT || '3000');
-app.set('port',port);
+app.set('port', port);
 
 /**
  * Create HTTP server.
@@ -26,15 +26,15 @@ const server = http.createServer(app);
  */
 
 server.listen(port);
-server.on('error',onError);
-server.on('listening',onListening);
+server.on('error', onError);
+server.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
  */
 
-function normalizePort(val:string) {
-  const port = parseInt(val,10);
+function normalizePort(val: string) {
+  const port = parseInt(val, 10);
 
   if (isNaN(port)) {
     return val;
@@ -57,9 +57,7 @@ function onError(error) {
     throw error;
   }
 
-  const bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+  const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
@@ -82,8 +80,6 @@ function onError(error) {
 
 function onListening() {
   const addr = server.address();
-  const bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr?.port;
+  const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr?.port;
   debug('Listening on ' + bind);
 }
