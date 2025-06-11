@@ -7,7 +7,7 @@ const router = Router();
 router.get('/', async (_req, res, next) => {
   try {
     const [result] = await pool.query(
-      'select id,name,author,cover_url,mp3_url from musics',
+      'select id,name,author,"" as cover_url,"" as mp3_url from songs',
     );
     res.status(200).json(result);
   } catch (error) {
@@ -19,7 +19,7 @@ router.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const [result] = await pool.query<RowDataPacket[]>(
-      'select music_array from musics where id=?',
+      'select notation from songs where id=?',
       [id],
     );
     if (result.length === 0) {
