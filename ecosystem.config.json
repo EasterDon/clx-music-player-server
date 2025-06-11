@@ -1,0 +1,12 @@
+{
+  "apps": [
+    {
+      "name": "clx-music-player-server",
+      "script": "pnpm",
+      "args": "start",
+      "cwd": "/var/www/clx-music-player-server",
+      "autorestart": true,
+      "watch": false
+    }
+  ]
+}

@@ -1,21 +1,14 @@
 import { Router } from 'express';
 import { readFile } from 'fs/promises';
 import path from 'path';
-import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
 import { type RowDataPacket } from 'mysql2/promise';
-import { pool_v2 } from '#db/db.js';
-
-const __dirname = dirname(fileURLToPath(import.meta.url));
-const publicLibrary = path.join(__dirname, '../../../public/songs');
+import { pool } from '#db/db.js';
 
 const router = Router();
 
 router.get('/', async (_req, res, next) => {
   try {
-    const [result] = await pool_v2.query(
-      'select id,name,author,cover_url,mp3_url from songs',
-    );
+    const [result] = await pool.query('select id,name,author from songs');
     res.status(200).json(result);
   } catch (error) {
     next(error);
@@ -25,7 +18,7 @@ router.get('/', async (_req, res, next) => {
 router.get('/:id/notation', async (req, res, next) => {
   try {
     const { id } = req.params;
-    const [result] = await pool_v2.query<RowDataPacket[]>(
+    const [result] = await pool.query<RowDataPacket[]>(
       'select notation from songs where id=?',
       [id],
     );
@@ -43,10 +36,10 @@ router.get('/:id/lyrics', async (req, res, next) => {
   try {
     const { id } = req.params;
     const data = await readFile(
-      path.join(publicLibrary, `${id}/music.lrc`),
+      path.join(process.env.songs_path!, `${id}/music.lrc`),
       'utf8',
     );
-    res.status(200).json(data);
+    res.status(200).contentType('text/plain; charset=utf-8').send(data);
   } catch (error) {
     next(error);
   }
