@@ -3,7 +3,7 @@ const router = async (fastify, options) => {
     const { rows } = await fastify.pg.query(
       'SELECT * FROM app WHERE id = (SELECT MAX(id) FROM app)',
     );
-    return rows[0];
+    return { data: rows[0], message: '软件版本信息获取成功' };
   });
 };
 
