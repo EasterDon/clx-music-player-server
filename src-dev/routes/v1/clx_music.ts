@@ -1,34 +1,23 @@
-import { Router } from 'express';
-import { pool } from '#db/db.js';
-import { type RowDataPacket } from 'mysql2/promise';
-
-const router = Router();
-
-router.get('/', async (_req, res, next) => {
-  try {
-    const [result] = await pool.query(
-      'select id,name,author,"" as cover_url,"" as mp3_url from songs',
+const router = async (fastify, options) => {
+  fastify.get('/', async (request, reply) => {
+    const { rows } = await fastify.pg.query(
+      "select id,name,author,'' as cover_url,'' as mp3_url from music ORDER BY id",
     );
-    res.status(200).json(result);
-  } catch (error) {
-    next(error);
-  }
-});
+    return rows;
+  });
 
-router.get('/:id', async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const [result] = await pool.query<RowDataPacket[]>(
-      'select notation from songs where id=?',
+  fastify.get('/:id', async (request, reply) => {
+    const { id } = request.params;
+    const { rows } = await fastify.pg.query(
+      'select notes from notation where id=$1',
       [id],
     );
-    if (result.length === 0) {
-      throw new Error('没有这首曲子哦～');
+    if (rows.length === 0) {
+      throw { status: 404, message: '没有该曲' };
     }
-    res.status(200).json(result[0]);
-  } catch (error) {
-    next(error);
-  }
-});
+    const res = JSON.stringify(rows[0].notes);
+    return res;
+  });
+};
 
 export default router;

@@ -1,8 +1,9 @@
-import { Router } from 'express';
 import songs_router from './songs.js';
 
-const router = Router();
-
-router.use('/songs', songs_router);
+const router = async (fastify, options) => {
+  fastify.register(songs_router, {
+    prefix: '/songs'
+  });
+}
 
 export default router;
