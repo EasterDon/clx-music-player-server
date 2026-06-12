@@ -7,21 +7,18 @@ import {
 
 const router: FastifyPluginAsync = async (fastify) => {
   fastify.get('/', async () => {
-    const rows = await listMusic(fastify);
-    return { data: rows, message: '歌曲列表获取成功' };
+    return listMusic(fastify);
   });
 
   fastify.get<{ Params: { id: string } }>(
     '/:id/notation',
     async (request) => {
-      const notes = await getNotation(fastify, request.params.id);
-      return { data: notes, message: '字母谱获取成功' };
+      return getNotation(fastify, request.params.id);
     },
   );
 
   fastify.get<{ Params: { id: string } }>('/:id/lyrics', async (request) => {
-    const lyrics = await getLyrics(fastify.env.songs_path, request.params.id);
-    return { data: lyrics, message: '歌词获取成功' };
+    return getLyrics(fastify.env.songs_path, request.params.id);
   });
 };
 

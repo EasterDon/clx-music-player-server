@@ -1,42 +1,47 @@
 import Fastify from 'fastify';
 import fastifyStatic from '@fastify/static';
+import { validateEnv } from '#env.js';
+import { getErrorMessage, getErrorStatusCode } from '#errors.js';
+import {
+  buildFastifyLoggerConfig,
+  closeProductionLogStream,
+} from '#utils/logger.js';
 import { setupDatabase } from './db/db.js';
 
-import app_value_router from '#routes/app.js';
-import clx_music_router from '#routes/v1/index.js';
-import v2_router from '#routes/v2/index.js';
+import health_router from '#routes/health.js';
+import legacy_router from '#routes/legacy/index.js';
 import v3_router from '#routes/v3/index.js';
 
+const env = validateEnv();
+
 const fastify = Fastify({
-  logger: false,
+  logger: buildFastifyLoggerConfig(),
 });
 
 await setupDatabase(fastify);
 
-fastify.register(fastifyStatic, {
-  root: process.env.public_path!, // 静态文件目录
-  prefix: '/', // 访问前缀
-});
+fastify.decorate('env', env);
 
-fastify.register(app_value_router, {
-  prefix: '/app',
-});
-// 初版 api 接口，为方便不想升级应用的用户留
-fastify.register(clx_music_router, {
+await fastify.register(health_router);
+await fastify.register(fastifyStatic, {
+  root: env.public_path,
   prefix: '/',
 });
-// v2 接口
-fastify.register(v2_router, {
-  prefix: '/v2',
-});
-// v3 接口
-fastify.register(v3_router, {
+await fastify.register(legacy_router);
+await fastify.register(v3_router, {
   prefix: '/v3',
 });
 
-fastify.setErrorHandler((err, request, reply) => {
-  return reply.status(err.status || 500).send({
-    message: err.message,
+fastify.setErrorHandler((err, _request, reply) => {
+  const statusCode = getErrorStatusCode(err);
+  const message = getErrorMessage(err);
+
+  if (statusCode >= 500) {
+    fastify.log.error(err);
+  }
+
+  return reply.status(statusCode).send({
+    message,
     data: null,
   });
 });
@@ -44,13 +49,24 @@ fastify.setErrorHandler((err, request, reply) => {
 const start = async () => {
   try {
     await fastify.listen({
-      port: 3000,
+      port: Number(process.env.PORT) || 3000,
       host: '0.0.0.0',
     });
+    fastify.log.info(`服务已启动，静态目录: ${env.public_path}`);
   } catch (err) {
-    console.log(err);
     fastify.log.error(err);
     process.exit(1);
   }
 };
+
+const shutdown = async (signal: string) => {
+  fastify.log.info(`收到 ${signal}，正在关闭服务…`);
+  closeProductionLogStream();
+  await fastify.close();
+  process.exit(0);
+};
+
+process.on('SIGINT', () => void shutdown('SIGINT'));
+process.on('SIGTERM', () => void shutdown('SIGTERM'));
+
 start();

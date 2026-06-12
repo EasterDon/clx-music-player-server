@@ -8,3 +8,6 @@
 **/*.code-workspace
 
 **/.env.production
+
+change.md
+.DS_Store
