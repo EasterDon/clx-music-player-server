@@ -1,12 +1,14 @@
-const router = async (fastify, options) => {
-  fastify.get('/', async (request, reply) => {
+import type { FastifyPluginAsync } from 'fastify';
+
+const router: FastifyPluginAsync = async (fastify) => {
+  fastify.get('/', async () => {
     const { rows } = await fastify.pg.query(
-      "select id,name,author,'' as cover_url,'' as mp3_url from music ORDER BY id",
+      'select id,name,author,\'\' as cover_url,\'\' as mp3_url from music ORDER BY id',
     );
     return rows;
   });
 
-  fastify.get('/:id', async (request, reply) => {
+  fastify.get<{ Params: { id: string } }>('/:id', async (request) => {
     const { id } = request.params;
     const { rows } = await fastify.pg.query(
       'select notes from notation where id=$1',
