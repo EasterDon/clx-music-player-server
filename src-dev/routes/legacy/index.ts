@@ -1,10 +1,10 @@
-import type { FastifyPluginAsync } from 'fastify';
+import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import legacy_app_router from './app.js';
 import v1_router from './v1/index.js';
 import v2_router from './v2/index.js';
 
 /** 旧版 api，仅兼容旧客户端，不再维护 */
-const router: FastifyPluginAsync = async (fastify) => {
+const router: FastifyPluginAsync = async (fastify: FastifyInstance) => {
   await fastify.register(legacy_app_router, {
     prefix: '/app',
   });

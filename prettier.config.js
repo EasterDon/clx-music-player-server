@@ -19,5 +19,5 @@ export default {
   bracketSpacing: true,
   bracketSameLine: false,
   vueIndentScriptAndStyle: false,
-  singleAttributePerLine: false
+  singleAttributePerLine: false,
 };

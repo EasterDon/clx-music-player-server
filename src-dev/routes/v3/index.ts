@@ -1,8 +1,8 @@
-import type { FastifyPluginAsync } from 'fastify';
+import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
 import music_router from './music.js';
 import app_router from './app.js';
 
-const router: FastifyPluginAsync = async (fastify) => {
+const router: FastifyPluginAsync = async (fastify: FastifyInstance) => {
   await fastify.register(music_router, {
     prefix: '/music',
   });

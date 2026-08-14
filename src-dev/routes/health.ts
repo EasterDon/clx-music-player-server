@@ -1,6 +1,6 @@
-import type { FastifyPluginAsync } from 'fastify';
+import type { FastifyInstance, FastifyPluginAsync } from 'fastify';
 
-const router: FastifyPluginAsync = async (fastify) => {
+const router: FastifyPluginAsync = async (fastify: FastifyInstance) => {
   fastify.get('/health', async (_request, reply) => {
     try {
       await fastify.pg.query('SELECT 1');
