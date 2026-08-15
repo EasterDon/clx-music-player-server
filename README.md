@@ -83,6 +83,8 @@ pm2 start ecosystem.config.json
 | `LOG_TO_FILE` | 否 | 设为 `true` 时同样启用文件日志（可不设 `NODE_ENV`） |
 | `LOG_DIR` | 否 | 日志目录，默认 `./logs`（生产且启用文件日志时生效） |
 
+> 💡 数据库表结构示例（PostgreSQL）见根目录 [`clx_music_example.sql`](./clx_music_example.sql)。
+
 路径经 `path.resolve` 后交给 `@fastify/static`。请在项目根启动（PM2 的 `cwd` 为项目根）。
 
 ## 静态资源目录
